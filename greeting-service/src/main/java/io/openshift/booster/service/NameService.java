@@ -16,7 +16,30 @@
 
 package io.openshift.booster.service;
 
+import java.io.Serializable;
+
 public interface NameService {
 
-    String getName();
+    Person getPerson(Integer id);
+
+    class Person implements Serializable {
+        private Integer id;
+        private String name;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
 }

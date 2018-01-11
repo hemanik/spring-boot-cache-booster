@@ -19,6 +19,7 @@ package io.openshift.booster.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,14 +34,14 @@ public class GreetingController {
         this.nameCacheUtil = nameCacheUtil;
     }
 
-    @GetMapping("/api/greeting")
-    public Greeting getGreeting() {
-        return new Greeting(String.format("Hello, %s!", nameService.getName()));
+    @GetMapping("/api/greeting/{id}")
+    public Greeting getGreeting(@PathVariable("id") Integer id) {
+        return new Greeting(String.format("Hello, %s!", nameService.getPerson(id).getName()));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/api/greeting")
-    public void deleteCache() {
+    @DeleteMapping("/api/cache")
+    public void clearCache() {
         nameCacheUtil.clear();
     }
 

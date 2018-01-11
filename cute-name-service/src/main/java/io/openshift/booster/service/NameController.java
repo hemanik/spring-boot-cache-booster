@@ -18,6 +18,7 @@ package io.openshift.booster.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,10 +30,10 @@ public class NameController {
         this.sleepMillis = sleepMillis;
     }
 
-    @GetMapping("/api/name")
-    public String getName() {
+    @GetMapping("/api/person/{id}")
+    public Person getPerson(@PathVariable("id") Integer id) {
         sleep();
-        return UserNameGenerator.generate();
+        return new Person(id, UserNameGenerator.generate());
     }
 
     private void sleep() {
@@ -43,5 +44,23 @@ public class NameController {
         try {
             Thread.sleep(sleepMillis);
         } catch (InterruptedException ignored) {}
+    }
+
+    static class Person {
+        private final int id;
+        private final String name;
+
+        public Person(int id, String name) {
+            this.name = name;
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

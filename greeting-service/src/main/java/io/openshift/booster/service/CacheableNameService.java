@@ -37,7 +37,7 @@ public class CacheableNameService implements NameService {
 
     @Cacheable(NAME_CACHE_ID)
     @Override
-    public String getName() {
-        return restTemplate.getForObject(nameServiceBaseURL + "/api/name", String.class);
+    public Person getPerson(Integer id) {
+        return restTemplate.getForObject(nameServiceBaseURL + "/api/person/{id}", Person.class, id);
     }
 }

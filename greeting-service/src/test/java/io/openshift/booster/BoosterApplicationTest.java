@@ -51,17 +51,22 @@ public class BoosterApplicationTest {
 
     @Test
     public void getGreeting() throws Exception{
+        final int id = 1;
         final String name = "cute";
-        given(nameService.getName()).willReturn(name);
+        final NameService.Person person = new NameService.Person();
+        person.setId(id);
+        person.setName(name);
 
-        mvc.perform(get("/api/greeting"))
+        given(nameService.getPerson(id)).willReturn(person);
+
+        mvc.perform(get("/api/greeting/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message", containsString(name)));
     }
 
     @Test
     public void deleteCache() throws Exception{
-        mvc.perform(delete("/api/greeting"))
+        mvc.perform(delete("/api/cache"))
                 .andExpect(status().isNoContent());
     }
 }

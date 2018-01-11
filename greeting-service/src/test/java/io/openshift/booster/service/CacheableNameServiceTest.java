@@ -41,7 +41,7 @@ public class CacheableNameServiceTest extends AbstractSpringCachingTest {
     @Test
     public void verifyCachingBehavior() {
         //invoke the first time
-        nameService.getName();
+        nameService.getPerson(1);
         //assert no cache hit
         verify(restTemplate, times(1)).getForObject(anyString(), any(Class.class));
 
@@ -49,14 +49,14 @@ public class CacheableNameServiceTest extends AbstractSpringCachingTest {
         reset(restTemplate);
 
         //invoke the second time
-        nameService.getName();
+        nameService.getPerson(1);
         //assert cache hit
         verify(restTemplate, never()).getForObject(anyString(), any(Class.class));
 
         sleepLongEnoughForCacheToExpire();
 
         //invoke the first time
-        nameService.getName();
+        nameService.getPerson(1);
         //assert no cache hit
         verify(restTemplate, times(1)).getForObject(anyString(), any(Class.class));
     }
