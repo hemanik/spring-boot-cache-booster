@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -43,7 +44,7 @@ public class CacheableNameServiceTest extends AbstractSpringCachingTest {
         //invoke the first time
         nameService.getPerson(1);
         //assert no cache hit
-        verify(restTemplate, times(1)).getForObject(anyString(), any(Class.class));
+        verifyCacheMiss();
 
         //reset the mock so we can test if there were any new invocations
         reset(restTemplate);
@@ -58,7 +59,11 @@ public class CacheableNameServiceTest extends AbstractSpringCachingTest {
         //invoke the first time
         nameService.getPerson(1);
         //assert no cache hit
-        verify(restTemplate, times(1)).getForObject(anyString(), any(Class.class));
+        verifyCacheMiss();
+    }
+
+    private void verifyCacheMiss() {
+        verify(restTemplate, times(1)).getForObject(anyString(), any(Class.class), eq(1));
     }
 
 }
